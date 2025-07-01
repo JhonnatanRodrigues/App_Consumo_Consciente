@@ -9,9 +9,10 @@ import homeScreenStyles from "src/styles/screens/homeScreenStyles";
 
 type props = {
     usuario: Usuario;
+    logOut: () => void;
 }
 
-const HomeScreenView = ({ usuario }: props) => {
+const HomeScreenView = ({ usuario, logOut }: props) => {
     return (
         <SafeAreaView style={[globalStyles.screenPrincipal]}>
             <View style={[globalStyles.container, homeScreenStyles.screen]} >
@@ -29,7 +30,7 @@ const HomeScreenView = ({ usuario }: props) => {
                         <Text style={globalStyles.label}>Editar conta</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={homeScreenStyles.buttons}>
+                    <TouchableOpacity style={homeScreenStyles.buttons} onPress={logOut}>
                         <MaterialIcons name="logout" size={24} color={cores.primary} />
                         <Text style={globalStyles.label}>Sair do app Consumo Conciente</Text>
                     </TouchableOpacity>

@@ -1,15 +1,28 @@
 import { Dimensions, Text, View } from "react-native";
 import { visaogeral_ConsumoPorDispComponentStyles } from "src/styles/components/visaogeral_ConsumoPorDispComponentStyles";
-import { Dispositivo_Consumo } from "src/types/visaoGeralTypes";
+import { ConsumoAnual } from "src/types/visaoGeralTypes";
 import { LineChart } from 'react-native-chart-kit';
 
 type props = {
-    dispositivos_consumos: Dispositivo_Consumo[];
+    consumoAnual: ConsumoAnual[];
 }
 
 const screenWidth = Dimensions.get("window").width;
-const Visaogeral_ConsumoAnualComponent = ({dispositivos_consumos}: props) => {
-    
+
+const Visaogeral_ConsumoAnualComponent = ({ consumoAnual }: props) => {
+    if (!consumoAnual || consumoAnual.length === 0) {
+        return (
+            <View style={visaogeral_ConsumoPorDispComponentStyles.container}>
+                <Text style={{ fontSize: 16, fontWeight: "bold", marginBottom: 8 }}>
+                    Demonstrativo de consumo anual kWh
+                </Text>
+                <Text style={{ color: '#888' }}>Sem dados disponíveis</Text>
+            </View>
+        );
+    }
+
+    const labels = consumoAnual.map(item => item.mes ?? 'N/A');
+    const dataValues = consumoAnual.map(item => item.consumoTotal_kWs ?? 0);
 
     return (
         <View style={visaogeral_ConsumoPorDispComponentStyles.container}>
@@ -19,12 +32,12 @@ const Visaogeral_ConsumoAnualComponent = ({dispositivos_consumos}: props) => {
 
             <LineChart
                 data={{
-                    labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                    labels: labels,
                     datasets: [
-                    {
-                        data: [4000, 6200, 3000, 7000, 9500, 6000, 5000, 4900, 7000, 10500, 10000, 4000],
-                        color: () => '#3399ff',
-                    },
+                        {
+                            data: dataValues,
+                            color: () => '#3399ff',
+                        },
                     ],
                 }}
                 width={screenWidth - 60}
@@ -38,15 +51,15 @@ const Visaogeral_ConsumoAnualComponent = ({dispositivos_consumos}: props) => {
                     color: () => '#007bff',
                     labelColor: () => '#000',
                     propsForLabels: {
-                    fontSize: 10,       // menor fonte para labels
+                        fontSize: 10,
                     },
                 }}
                 style={{
-                    marginLeft: 40,    // espaço extra para eixo Y
+                    marginLeft: 40,
                     marginRight: 10,
                 }}
                 bezier
-                />
+            />
         </View>
     );
 }

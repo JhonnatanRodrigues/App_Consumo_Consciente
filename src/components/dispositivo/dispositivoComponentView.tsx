@@ -8,11 +8,12 @@ import { dispositivoComponentStyles } from "src/styles/components/dispositivoCom
 
 type props = {
     dispositivo: Dispositivo;
+    onPress: (id: number) => void;
 }
 
-const DispositivoComponentView = ({dispositivo}: props) => {
+const DispositivoComponentView = ({dispositivo, onPress}: props) => {
     return(
-        <TouchableOpacity style={[dispositivoComponentStyles.container, {backgroundColor: dispositivo.online ? '#2DAEF633' : '#D6D6D6'}]}>
+        <TouchableOpacity style={[dispositivoComponentStyles.container, {backgroundColor: dispositivo.online ? '#2DAEF633' : '#D6D6D6'}]} onPress={() => onPress(dispositivo.id)}>
             <View>
                 {dispositivo.urlImagem
                     ?<Image style={dispositivoComponentStyles.imagem} source={{uri: dispositivo.urlImagem}}/>

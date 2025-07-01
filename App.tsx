@@ -4,13 +4,18 @@ import { NavigationContainer, useNavigationContainerRef } from '@react-navigatio
 import AuthNavigator from 'src/navigations/authNavigator';
 import MenuNavigator from 'src/navigations/menuNavigator';
 import { MenuStackParamList } from 'src/types/navigationsTypes';
+import { useAuthStore } from 'src/store/auth/useAuthStore';
+import { useEffect } from 'react';
 
 export default function App() {
   useFonts({
     LeagueGothic: require('./assets/fonts/LeagueGothic.ttf')
   });
+  const token = useAuthStore((s) => s.token);
 
-  const token = "ferferf";
+  useEffect(() => {
+    console.log("🤦‍♂️aqui: ", token);
+  },[token])
 
   return (
     <SafeAreaProvider>

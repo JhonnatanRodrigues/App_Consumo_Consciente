@@ -11,11 +11,12 @@ import DispositivoModal from "src/models/dispositivos/dispositivoModal";
 type props = {
     dispositivos: Dispositivo[];
     isOpenModelDispositivo: boolean;
+    idDispositivo?: number;
     clousedModelDispositivo: () => void;
-    openModelDispositivo: () => void;
+    openModelDispositivo: (id?: number) => void;
 }
 
-const DispositivoScreenView = ({ dispositivos, isOpenModelDispositivo, clousedModelDispositivo, openModelDispositivo }: props) => {
+const DispositivoScreenView = ({ dispositivos, isOpenModelDispositivo, clousedModelDispositivo, openModelDispositivo, idDispositivo }: props) => {
     return (
         <SafeAreaView style={[globalStyles.screenPrincipal]}>
             <View style={[globalStyles.container, dispositivoScreenStyles.screen]} >
@@ -26,19 +27,19 @@ const DispositivoScreenView = ({ dispositivos, isOpenModelDispositivo, clousedMo
                 <ScrollView style={dispositivoScreenStyles.scroolDispositivos}>
                     {
                         dispositivos.map((p, key) => (
-                            <DispositivoComponent key={key} dispositivo={p}/>
+                            <DispositivoComponent key={key} dispositivo={p} onPress={(id) => openModelDispositivo(id)}/>
                         ))
                     }
                 </ScrollView>
             </View>
             
             
-            <TouchableOpacity style={dispositivoScreenStyles.buttonAdd} onPress={openModelDispositivo}>
+            <TouchableOpacity style={dispositivoScreenStyles.buttonAdd} onPress={() => openModelDispositivo()}>
                 <Feather name="plus" size={20} color={cores.background} />
             </TouchableOpacity>
 
             <MennuBoddyComponent/>
-            <DispositivoModal isVisible={isOpenModelDispositivo} cloused={clousedModelDispositivo} />
+            <DispositivoModal isVisible={isOpenModelDispositivo} cloused={clousedModelDispositivo} idAlterar={idDispositivo}/>
         </SafeAreaView>
     );
 }

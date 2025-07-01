@@ -24,12 +24,12 @@ const VisaoGeralScreenView = ({visaoGeral}: props) => {
                         valor={`${visaoGeral.consumoTotalDoMes_kWs} kWs`}
                         descricao='Consumo total no mês'/>
                     <VisaoGeral_TotalizadoresComponents
-                        valor={`R$ ${visaoGeral.custoTotalEstimadoDoMes},00`}
+                        valor={`R$ ${visaoGeral.custoTotalEstimadoDoMes}`}
                         descricao='Custo estimado'/>
                 </View>
 
                 <Visaogeral_ConsumoPorDispComponent dispositivos_consumos={visaoGeral.dispositivos_consumos} />
-                <Visaogeral_ConsumoAnualComponent dispositivos_consumos={visaoGeral.dispositivos_consumos} />
+                <Visaogeral_ConsumoAnualComponent consumoAnual={visaoGeral.consumoAnual} />
             </View>
 
             <MennuBoddyComponent/>

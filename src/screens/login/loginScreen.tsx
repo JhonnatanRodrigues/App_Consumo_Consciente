@@ -3,6 +3,8 @@ import LoginScreenView from "./loginScreenView";
 import Toast from 'react-native-toast-message';
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { AuthStackParamList } from "src/types/navigationsTypes";
+import { login } from "src/services/login/loginApi";
+import { useAuthStore } from "src/store/auth/useAuthStore";
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'Login'>;
 
@@ -10,6 +12,7 @@ const LoginScreen = ({ navigation } :Props) => {
     const [passowrd, setPassowrd] = useState<string>("");
     const [user, setUser] = useState<string>("");
     const [lembrarDados, setLembrarDados] = useState<boolean>(false);
+    const setToken = useAuthStore((s) => s.setToken);
 
     function onChange_Formulario(fieldName:  'user' | 'passowrd' | 'lembrarDados', value: any){
         switch (fieldName) {
@@ -32,8 +35,16 @@ const LoginScreen = ({ navigation } :Props) => {
         }
     }
     
-    function onLogin(){
-
+    async function onLogin(){
+        try {
+            const token = await login(user, passowrd);
+            setToken(token.token);
+        } catch (error) {
+            Toast.show({
+                type: 'error',
+                text1: 'Email ou senha inválidos',
+                });
+        }
     }
 
     function cadastrar(){
